@@ -480,8 +480,8 @@ class Transformer(nn.Module):
         checkpoint = None
         if src_vocab_size is None or tgt_vocab_size is None:
             checkpoint_path = "best_transformer.pt" if checkpoint_path is None else checkpoint_path
-            if not os.path.exists(checkpoint_path)
-            gdown.download(id="17KEm7zd2O_r070QwVTEHM5cjaFOPbPaW", output=checkpoint_path, quiet=False)
+            if not os.path.exists(checkpoint_path):
+                gdown.download(id="17KEm7zd2O_r070QwVTEHM5cjaFOPbPaW", output=checkpoint_path, quiet=False)
             checkpoint = torch.load(checkpoint_path, map_location="cpu")
 
             config = checkpoint["model_config"]
