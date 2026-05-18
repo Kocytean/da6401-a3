@@ -478,7 +478,7 @@ class Transformer(nn.Module):
         # TODO: Instantiate 
         # init should also load the model weights if checkpoint path provided, download the .pth file like this
         if checkpoint_path is not None:
-            gdown.download(id="<.pth drive id>", output=checkpoint_path, quiet=False)
+            gdown.download(id="17KEm7zd2O_r070QwVTEHM5cjaFOPbPaW", output=checkpoint_path, quiet=False)
         if src_vocab_size is None or tgt_vocab_size is None:
             ckpt_p = "best_transformer.pt" if checkpoint_path is None else checkpoint_path
 
