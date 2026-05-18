@@ -622,7 +622,10 @@ class Transformer(nn.Module):
         device = next(self.parameters()).device
         if not hasattr(self, "spacy_de"):
             import spacy
-            self.spacy_de = spacy.load("de_core_news_sm")
+            try:
+                self.spacy_de = spacy.load("de_core_news_sm")
+            except:
+                self.spacy_de = spacy.blank("de")
 
         tokens = [token.text.lower() for token in self.spacy_de.tokenizer(src_sentence)]
 
