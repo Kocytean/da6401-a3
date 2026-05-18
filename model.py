@@ -477,12 +477,12 @@ class Transformer(nn.Module):
         super().__init__()
         # TODO: Instantiate 
         # init should also load the model weights if checkpoint path provided, download the .pth file like this
-        if checkpoint_path is not None:
-            gdown.download(id="17KEm7zd2O_r070QwVTEHM5cjaFOPbPaW", output=checkpoint_path, quiet=False)
+        checkpoint = None
         if src_vocab_size is None or tgt_vocab_size is None:
-            ckpt_p = "best_transformer.pt" if checkpoint_path is None else checkpoint_path
-
-            checkpoint = torch.load(ckpt_p, map_location="cpu")
+            checkpoint_path = "best_transformer.pt" if checkpoint_path is None else checkpoint_path
+            if not os.path.exists(checkpoint_path)
+            gdown.download(id="17KEm7zd2O_r070QwVTEHM5cjaFOPbPaW", output=checkpoint_path, quiet=False)
+            checkpoint = torch.load(checkpoint_path, map_location="cpu")
 
             config = checkpoint["model_config"]
 
@@ -528,6 +528,8 @@ class Transformer(nn.Module):
 
         # Optional checkpoint loading 
         if checkpoint_path is not None:
+            if checkpoint is None:
+                checkpoint = torch.load(checkpoint_path, map_location="cpu")
             self.load_state_dict(checkpoint["model_state_dict"])
 
 
