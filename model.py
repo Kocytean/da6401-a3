@@ -465,8 +465,8 @@ class Transformer(nn.Module):
 
     def __init__(
         self,
-        src_vocab_size: int,
-        tgt_vocab_size: int,
+        src_vocab_size: int = None,
+        tgt_vocab_size: int = None,
         d_model:   int   = 512,
         N:         int   = 6,
         num_heads: int   = 8,
@@ -479,6 +479,22 @@ class Transformer(nn.Module):
         # init should also load the model weights if checkpoint path provided, download the .pth file like this
         if checkpoint_path is not None:
             gdown.download(id="<.pth drive id>", output=checkpoint_path, quiet=False)
+        if src_vocab_size is None or tgt_vocab_size is None:
+            ckpt_p = "best_transformer.pt" if checkpoint_path is None else checkpoint_path
+
+            checkpoint = torch.load(ckpt_p, map_location="cpu")
+
+            config = checkpoint["model_config"]
+
+            src_vocab_size = config["src_vocab_size"]
+            tgt_vocab_size = config["tgt_vocab_size"]
+
+            d_model = config["d_model"]
+            N = config["N"]
+            num_heads = config["num_heads"]
+            d_ff = config["d_ff"]
+            dropout = config["dropout"]
+
         self.src_vocab_size = src_vocab_size
         self.tgt_vocab_size = tgt_vocab_size
 
@@ -504,7 +520,7 @@ class Transformer(nn.Module):
         self.encoder = Encoder(encoder_layer, N)
         self.decoder = Decoder(decoder_layer, N)
 
-        self.output_projection = nn.Linear(d_model,tgt_vocab_size)
+        self.output_projection = nn.Linear(d_model, tgt_vocab_size)
 
         for p in self.parameters():
             if p.dim() > 1:
@@ -512,7 +528,6 @@ class Transformer(nn.Module):
 
         # Optional checkpoint loading 
         if checkpoint_path is not None:
-            checkpoint = torch.load(checkpoint_path, map_location="cpu")
             self.load_state_dict(checkpoint["model_state_dict"])
 
 
