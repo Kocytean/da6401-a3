@@ -530,6 +530,10 @@ class Transformer(nn.Module):
         if checkpoint_path is not None:
             if checkpoint is None:
                 checkpoint = torch.load(checkpoint_path, map_location="cpu")
+            self.src_vocab = checkpoint.get("src_vocab")
+            self.tgt_vocab = checkpoint.get("tgt_vocab")
+            self.src_itos = checkpoint.get("src_itos")
+            self.tgt_itos = checkpoint.get("tgt_itos")
             self.load_state_dict(checkpoint["model_state_dict"])
 
 
