@@ -289,8 +289,8 @@ def evaluate_bleu(
 
                     tgt_sentence.append(tgt_vocab[idx])
 
-                hypotheses.append(pred_sentence)
-                references.append([tgt_sentence])
+                hypotheses.append(" ".join(pred_sentence))
+                references.append(" ".join(tgt_sentence))
 
     bleu_score = list_bleu(references,hypotheses)
     return bleu_score * 100
