@@ -275,10 +275,8 @@ def evaluate_bleu(
                 pred_sentence = []
 
                 for idx in pred_tokens:
-
                     if idx in [0, 1, 2, 3]:
                         continue
-
                     pred_sentence.append(tgt_vocab[idx])
 
                 tgt_sentence = []
@@ -452,27 +450,9 @@ def run_training_experiment() -> None:
     best_val_loss = float("inf")
     for epoch in range(config["epochs"]):
 
-        train_loss = run_epoch(
-            train_loader,
-            model,
-            loss_fn,
-            optimizer,
-            scheduler,
-            epoch,
-            is_train=True,
-            device=device,
-        )
+        train_loss = run_epoch(train_loader, model, loss_fn, optimizer, scheduler, epoch, is_train=True, device=device)
 
-        val_loss = run_epoch(
-            val_loader,
-            model,
-            loss_fn,
-            None,
-            None,
-            epoch,
-            is_train=False,
-            device=device,
-        )
+        val_loss = run_epoch(val_loader, model, loss_fn, epoch_num = epoch, is_train=False, device=device)
 
         wandb.log({"epoch": epoch,
                 "train_loss": train_loss,
@@ -480,9 +460,7 @@ def run_training_experiment() -> None:
                 "learning_rate":
                     optimizer.param_groups[0]["lr"]})
 
-        print(
-            f"Epoch {epoch} | train={train_loss:.4f} | val={val_loss:.4f}"
-        )
+        print(f"Epoch {epoch} | train={train_loss:.4f} | val={val_loss:.4f}")
 
         if val_loss < best_val_loss:
             best_val_loss = val_loss
