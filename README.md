@@ -2,8 +2,8 @@
 
 ## Overview
 
-In this assignment, you will implement the landmark architecture from the paper "Attention Is All You Need" from scratch using PyTorch. The goal is to develop a Neural Machine Translation (NMT) system capable of translating text from German to English using the Multi30k dataset.
-
+Wandb report link: https://wandb.ai/cs25d006-iitm/da6401-a3/reports/DA6401-Assignment-3--VmlldzoxNjkzMDI3MA?accessToken=xcipbptkqzezpjtp1ft93yerclvx3rfhy83zwulv06xnaapuj5l7huvei15yayyp
+GitHub Repo link: https://github.com/Kocytean/da6401-a3/edit/main/README.md
 ## Project Structure
 
 ```text
