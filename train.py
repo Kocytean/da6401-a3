@@ -451,8 +451,7 @@ def run_training_experiment() -> None:
     for epoch in range(config["epochs"]):
 
         train_loss = run_epoch(train_loader, model, loss_fn, optimizer, scheduler, epoch, is_train=True, device=device)
-
-        val_loss = run_epoch(val_loader, model, loss_fn, epoch_num = epoch, is_train=False, device=device)
+        val_loss = run_epoch(val_loader, model, loss_fn, optimizer, epoch_num = epoch, is_train=False, device=device)
 
         wandb.log({"epoch": epoch,
                 "train_loss": train_loss,
@@ -469,7 +468,6 @@ def run_training_experiment() -> None:
     bleu = evaluate_bleu(model, test_loader, train_dataset.tgt_itos, device=device) 
     wandb.log({"test_bleu": bleu})
     print(f"Test BLEU: {bleu:.3f}")
-
 
 if __name__ == "__main__":
     run_training_experiment()
